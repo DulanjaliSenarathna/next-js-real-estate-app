@@ -1,5 +1,6 @@
 'use client'
 import { Button } from '@/components/ui/button'
+import { UserButton, useUser } from '@clerk/nextjs'
 import { Plus } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -8,6 +9,7 @@ import React, { useEffect } from 'react'
 
 function Header() {
     let path = usePathname();
+    const {user, isSignedIn} = useUser();
 
     useEffect(()=>{
         console.log(path)
@@ -22,9 +24,10 @@ function Header() {
             <li className='hover:text-primary font-medium text-sm cursor-pointer'>Agent Finder</li>
         </ul>
         </div>
-        <div className='flex gap-2'>
+        <div className='flex gap-2 items-center'>
             <Button className='flex gap-2 cursor-pointer'> <Plus className='h-5 w-5'/> Post Your Add</Button>
-            <Button variant='outline' className=' cursor-pointer'>Login</Button>
+            {isSignedIn ? <UserButton/> : <Link href={'/sign-in'}> <Button variant='outline' className=' cursor-pointer'>Login</Button></Link>}
+            
         </div>
     </div>
   )
